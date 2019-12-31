@@ -4,6 +4,7 @@ const events = (state = [], action) => {
             const event = { title: action.title, body: action.body }
             const length = state.length
             const id = length === 0 ? 1 : state[length -1].id +1
+            // 配列となっているstateの最後の要素に{ id: id, title: title, body: body}を追加する
             return [...state, { id, ...event }]
         case'DELETE_EVENT':
             return state
