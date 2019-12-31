@@ -7,7 +7,8 @@ import AppContext from '../contexts/AppContext'
 
 const App = () => {
   const initialState = {
-    events: []
+    events: [],
+    operationLogs: []
   }
   // refs: https://ja.reactjs.org/docs/hooks-reference.html#usereducer
   const [state, dispatch] = useReducer(reducer, initialState)
