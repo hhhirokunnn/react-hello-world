@@ -1,0 +1,52 @@
+import React, { useState } from 'react'
+import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions'
+
+const EventForm = ( { state, dispatch } ) => {
+    const [title, setTitle] = useState('')
+    const [body, setBody] = useState('')
+
+    const addEvent = e => {
+        // ボタン押下時のsubmitを動作させない。
+        // reloadを防ぐことができる。
+        e.preventDefault()
+        dispatch({
+            type: CREATE_EVENT,
+            title,
+            body
+        })
+
+        //formに残っている値をclearする
+        setTitle('')
+        setBody('')
+    }
+
+    const deleteAllEvents = e => {
+        e.preventDefault()
+        const result = window.confirm('You want to delete all events?')
+        if(result) dispatch({ type: DELETE_ALL_EVENTS})
+    }
+
+    const unCreatable = title === '' || body === ''
+
+    return (
+        <>
+            <h4>イベント作成フォーム</h4>
+            <form>
+                <div className="form-group">
+                <label htmlFor="formEventTitle">Title</label>
+                <input className="form-control" id="formEventTitle" value={title} onChange={e => setTitle(e.target.value)}/>
+                </div>
+
+                <div className="form-group">
+                <label htmlFor="formEventBody">Body</label>
+                <textarea className="form-control" id="formEventBody" value={body} onChange={e=> setBody(e.target.value)}/>
+                </div>
+
+                <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable}> Create Event</button>
+                <button className="btn btn-danger" onClick={deleteAllEvents} disabled={state.length === 0}> Delete All Event</button>
+            </form>
+        </>
+    )
+}
+
+export default EventForm
