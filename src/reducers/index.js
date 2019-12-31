@@ -7,7 +7,7 @@ const events = (state = [], action) => {
             // 配列となっているstateの最後の要素に{ id: id, title: title, body: body}を追加する
             return [...state, { id, ...event }]
         case'DELETE_EVENT':
-            return state
+            return state.filter(event => event.id !== action.id)
         case'DELETE_ALL_EVENT':
             return []
         default:

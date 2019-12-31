@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from 'react'
- import 'bootstrap/dist/css/bootstrap.min.css'
- import reducer from '../reducers'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import reducer from '../reducers'
+import Event from './Event'
 
 const App = () => {
   // refs: https://ja.reactjs.org/docs/hooks-reference.html#usereducer
@@ -22,9 +23,6 @@ const App = () => {
       setBody('')
   }
 
-  console.log({state})
-  console.log({...state})
-
   return (
     <div className= "container-fluid">
       <h4>イベント作成フォーム</h4>
@@ -40,7 +38,7 @@ const App = () => {
         </div>
 
         <button className="btn btn-primary" onClick={addEvent}> Create Event</button>
-        <button className="btn btn-danger"> Delete Event</button>
+        <button className="btn btn-danger"> Delete All Event</button>
       </form>
       <h4>Event List</h4>
       <table className="table table-hover">
@@ -52,7 +50,9 @@ const App = () => {
             <th></th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          { state.map((event, index)  => <Event key={index} event={event} dispatch={dispatch} />) }
+        </tbody>
       </table>
     </div>
   )
