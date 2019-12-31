@@ -1,6 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions'
+import {
+    CREATE_EVENT,
+    DELETE_ALL_EVENTS,
+    ADD_OPERATION_LOG,
+    DELETE_ALL_OPERATION_LOGS
+} from '../actions'
 import AppContext from '../contexts/AppContext'
+import { timeCurrentIso8601 } from '../utils'
 
 const EventForm = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -17,6 +23,12 @@ const EventForm = () => {
             body
         })
 
+        dispatch({
+            type: ADD_OPERATION_LOG,
+            description: 'Created Event',
+            operatedAt: timeCurrentIso8601()
+        })
+
         //formに残っている値をclearする
         setTitle('')
         setBody('')
@@ -25,7 +37,15 @@ const EventForm = () => {
     const deleteAllEvents = e => {
         e.preventDefault()
         const result = window.confirm('You want to delete all events?')
-        if(result) dispatch({ type: DELETE_ALL_EVENTS})
+        if(result) {
+            dispatch({ type: DELETE_ALL_EVENTS})
+
+            dispatch({
+                type: DELETE_ALL_OPERATION_LOGS,
+                description: 'Deleted All Event',
+                operatedAt: timeCurrentIso8601()
+            })
+        }
     }
 
     const unCreatable = title === '' || body === ''
